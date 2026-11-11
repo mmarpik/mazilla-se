@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EQSidekick · Mazilla AB</title>
+<meta name="description" content="EQSidekick is a free raid tool for EverQuest: a damage and healing meter, triggers, raid log sharing and coaching after the fight.">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1d2321; --muted:#5b6662; --line:#dfe3df; --accent:#2f5d4a; --card:#ffffff; --btn-fg:#ffffff; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#141816; --fg:#e8ece9; --muted:#9aa6a1; --line:#2a312e; --accent:#8cc5a8; --card:#1b201e; --btn-fg:#10201a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width:48rem; margin:0 auto; padding:2rem 1rem 2rem; }
+  nav { font-size:.9rem; color:var(--muted); }
+  nav a { color:var(--muted); }
+  header { margin:2rem 0 1rem; }
+  header h1 { font-size:2.2rem; margin:0; letter-spacing:-0.01em; }
+  .lead { font-size:1.2rem; margin:.5rem 0 1.25rem; }
+  .btn { display:inline-block; background:var(--accent); color:var(--btn-fg); text-decoration:none;
+         font-weight:600; padding:.75rem 1.25rem; border-radius:8px; margin:0 .75rem .5rem 0; }
+  .small { font-size:.9rem; color:var(--muted); }
+  h2 { font-size:1.1rem; margin:2.75rem 0 .75rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+  h3 { font-size:1.1rem; margin:0 0 .35rem; }
+  a { color:var(--accent); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(14rem, 1fr)); gap:.75rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.25rem; }
+  .card p { margin:0; }
+  .note { background:var(--card); border-left:4px solid var(--accent); border-radius:6px; padding:1rem 1.25rem; }
+  .note p { margin:.25rem 0; }
+  section ul { padding-left:1.2rem; margin:.25rem 0 0; }
+  section li { margin:.25rem 0; }
+  footer { max-width:48rem; margin:0 auto; padding:1.5rem 1rem 3rem; color:var(--muted); font-size:.9rem; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/en/">Mazilla AB</a> / EQSidekick</nav>
+
+  <header>
+    <h1>EQSidekick</h1>
+    <p class="lead">A free raid tool for EverQuest. It reads the logs you already write and turns them into a meter,
+       spoken alerts, a shared picture of the raid and advice after the fight.</p>
+    <a class="btn" href="https://github.com/mmarpik/EQSidekick-releases/releases/latest/download/EQSidekick-win-Setup.exe">Download for Windows</a>
+    <a href="https://github.com/mmarpik/EQSidekick-releases/releases/latest">Release notes and other downloads</a>
+    <p class="small">Free. Updates itself from GitHub. Windows may show a SmartScreen warning the first time you install it.</p>
+  </header>
+
+  <div class="note">
+    <p><strong>What it doesn't do.</strong> EQSidekick only reads files: your logs, the raid and guild lists you write with
+       <code>/outputfile</code>, the game's spell list and its settings file. It never reads the game's memory, never sends
+       anything into the game and never types for you.</p>
+  </div>
+
+  <h2>Features</h2>
+  <div class="grid">
+    <div class="card"><h3>Damage and healing meter</h3><p>Works out each fight by itself, with an overlay you can keep on top of the game.</p></div>
+    <div class="card"><h3>Triggers</h3><p>Alerts, timers and spoken alerts. Imports GINA (.gtp) and EQLogParser (.tgf) trigger files, and triggers can be shared with a code typed in chat.</p></div>
+    <div class="card"><h3>Raid log sharing</h3><p>Several players' logs are merged into one picture of the raid, live and for the whole night afterwards.</p></div>
+    <div class="card"><h3>Coaching after a fight</h3><p>What went wrong and who it happened to, including the mechanics of named raid events.</p></div>
+    <div class="card"><h3>You decide</h3><p>Everything is off until you turn it on, and each feature says what it needs and what it costs.</p></div>
+    <div class="card"><h3>Free</h3><p>No accounts and no price. New versions install themselves from GitHub.</p></div>
+  </div>
+
+  <section>
+    <h2>Triggers</h2>
+    <ul>
+      <li>Alerts, timers and spoken alerts from what appears in your log.</li>
+      <li>Import trigger packages from GINA (.gtp) and EQLogParser (.tgf).</li>
+      <li>Share a set of triggers with others by a short code typed in chat.</li>
+      <li>The triggers window highlights what applies in your current zone and for your class.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Raid log sharing</h2>
+    <p>EverQuest shows each player only part of a raid fight, so any single log misses hits. With log sharing turned on,
+       the logs of everyone in the raid are merged on the raid server: what several players saw counts once, and what only one
+       player saw is kept. You see the result live during the fight and for the whole night afterwards.</p>
+    <p class="small">Raid sharing runs on raid.mazilla.se.</p>
+  </section>
+
+  <section>
+    <h2>Privacy</h2>
+    <p>Nothing from your logs leaves your PC until you turn on log sharing. Before it starts, EQSidekick shows exactly what will be shared.</p>
+    <ul>
+      <li><strong>Always shared</strong> when sharing is on: damage, heals, deaths, cures, absorbs, mez breaks, group buffs, pet owners and zoning.</li>
+      <li><strong>Shared by default, each can be switched off:</strong> casts; loot, loot rolls and /random; raid and group joins and leaves; raid lists; NPC speech; your own fizzles, interrupts and procs.</li>
+      <li><strong>Off unless you turn them on</strong> and the server asks for them: raid say and public chat (/say, /shout, /ooc, /auction).</li>
+      <li><strong>Never shared,</strong> and no setting can change it: tells, group chat, guild chat, fellowship chat and chat channels. Lines EQSidekick cannot read are never sent either.</li>
+    </ul>
+    <p>The server can only narrow what you share, never widen it. A merged raid night is visible only to the players who were in that raid.
+       Raw log streams are kept for 7 days and group data for 30 days, and <em>Delete all my history</em> in the app removes everything kept for you.
+       There are no accounts: the app identifies itself with a random key.</p>
+    <p>The raid server, raid.mazilla.se, is run by Mazilla AB in Sweden. Apart from log sharing, EQSidekick only connects to:
+       GitHub, to check for updates; items.sodeq.org, for the item table, only when you ask for it; Discord, which delivers feedback to us, only when you press Send in the feedback window;
+       and Microsoft Azure for spoken alerts, only if you set up a key for it.</p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p><a href="mailto:it@mazilla.se">it@mazilla.se</a></p>
+  </section>
+</main>
+<footer>
+  © Mazilla AB, Uppsala, Sweden. EQSidekick is an independent fan-made tool, not affiliated with or endorsed by Daybreak Game Company.
+  EverQuest is a registered trademark of Daybreak Game Company LLC.
+</footer>
+</body>
+</html>
