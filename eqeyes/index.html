@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10151C">
+<link rel="icon" href="icon.png">
+<title>EqEyes · Mazilla AB</title>
+<meta name="description" content="EqEyes is a free companion to EQSidekick: it reads what the EverQuest window shows, such as health, targets and spell gems, so triggers can act on it.">
+<style>
+  :root { --ground:#10151C; --panel:#18202A; --raised:#243142; --line:#2B3644; --line-strong:#3A4757;
+          --text:#E6EBF1; --soft:#C5CFDB; --muted:#93A1B3; --burn:#F2A33A;
+          --spell:#5AA9E6; --melee:#B49CF5; --ranged:#9CC27A; --heal:#4CC9A6; --boost:#E9D85C; --proc:#F06FA6; }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body { margin:0; background:var(--ground); color:var(--soft);
+         font:16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+  main { max-width:50rem; margin:0 auto; padding:1.5rem 1rem 2rem; }
+  nav { font-size:.85rem; color:var(--muted); }
+  nav a { color:var(--muted); text-decoration:none; }
+  nav a:hover { color:var(--soft); }
+  header { margin:2.25rem 0 1.5rem; }
+  .title { display:flex; align-items:center; gap:1rem; }
+  .title img { width:64px; height:64px; border-radius:12px; }
+  header h1 { font-size:2.2rem; margin:0; color:var(--text); font-weight:600; letter-spacing:-0.01em; }
+  .lead { font-size:1.15rem; color:var(--text); margin:1rem 0 1.25rem; max-width:40rem; }
+  .btn { display:inline-block; border:2px solid var(--burn); color:var(--burn); background:transparent; text-decoration:none;
+         font-weight:600; padding:.65rem 1.2rem; border-radius:8px; margin:0 1rem .5rem 0; }
+  .btn:hover { background:var(--burn); color:var(--ground); }
+  .small { font-size:.85rem; color:var(--muted); }
+  a { color:var(--spell); }
+  h2 { font-size:.75rem; font-weight:600; margin:2.75rem 0 .75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+  h3 { font-size:1rem; margin:0 0 .3rem; color:var(--text); font-weight:600; }
+  code { font-family:"Cascadia Mono", Consolas, monospace; font-size:.9em; background:var(--raised); padding:.05rem .3rem; border-radius:4px; color:var(--text); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(14rem, 1fr)); gap:12px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--accent, var(--line-strong));
+          border-radius:8px; padding:12px 16px 14px; }
+  .card p { margin:0; font-size:.95rem; }
+  .note { background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--heal); border-radius:8px; padding:12px 16px; }
+  .note p { margin:.25rem 0; }
+  .note strong, strong { color:var(--text); }
+  section ul, section ol { padding-left:1.2rem; margin:.25rem 0 0; }
+  section li { margin:.3rem 0; }
+  footer { max-width:50rem; margin:0 auto; padding:1.5rem 1rem 3rem; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/en/">Mazilla AB</a> / EqEyes</nav>
+
+  <header>
+    <div class="title"><img src="icon.png" alt=""><h1>EqEyes</h1></div>
+    <p class="lead">A free companion to <a href="/eqsidekick/">EQSidekick</a>. The game log says what happened; EqEyes says
+       what your screen shows right now: health, targets, the group, spell gems. Triggers can then act on that too.</p>
+    <a class="btn" href="https://github.com/mmarpik/EqEyes-releases/releases/latest/download/EqEyes-win-Setup.exe">Download for Windows</a>
+    <a href="https://github.com/mmarpik/EqEyes-releases/releases/latest">Release notes and other downloads</a>
+    <p class="small">Free. Updates itself from GitHub. Windows may show a SmartScreen warning the first time you install it.</p>
+  </header>
+
+  <div class="note">
+    <p><strong>What it doesn't do.</strong> EqEyes only looks at the game window, the same picture you see, and reads the
+       game's own UI layout files to know where each window is. It never reads the game's memory, never changes the game,
+       never draws on it, and never presses a key.</p>
+  </div>
+
+  <h2>What it reads</h2>
+  <div class="grid">
+    <div class="card" style="--accent:var(--heal)"><h3>You</h3><p>Your health, mana and endurance, and your group roles: main tank, main assist, puller, NPC marker.</p></div>
+    <div class="card" style="--accent:var(--proc)"><h3>Your target</h3><p>Its health, its buffs and debuffs, and the moment the target changes.</p></div>
+    <div class="card" style="--accent:var(--spell)"><h3>Your group</h3><p>Each member's health, who is lowest, and how many are under a given health.</p></div>
+    <div class="card" style="--accent:var(--melee)"><h3>Extended target</h3><p>Each slot's health and role: the main assist's target, the tank's, an add on the hate list.</p></div>
+    <div class="card" style="--accent:var(--boost)"><h3>Spells</h3><p>The cast bar, and which spell gems are ready, which are down, and which are empty.</p></div>
+    <div class="card" style="--accent:var(--ranged)"><h3>Honest about gaps</h3><p>When a window is hidden or can't be read, it says "unknown" instead of guessing.</p></div>
+  </div>
+
+  <section>
+    <h2>Triggers on what's on screen</h2>
+    <p>EqEyes writes what it reads to a plain text file beside your game log, one line each time something changes.
+       In EQSidekick's Triggers window, the <strong>Screen</strong> tab holds triggers that read that file, apart from the
+       <strong>Game log</strong> tab, so a screen trigger can never go off on something said in a tell. Some examples:</p>
+    <ul>
+      <li><strong>Pull:</strong> for the puller, says "Pull" once the camp is clear and everyone in the group has at least 80% health.</li>
+      <li><strong>Add:</strong> says "Add" when a new mob lands on your extended target that isn't the main assist's.</li>
+      <li><strong>Heal:</strong> speaks up when the lowest health in the group drops under a level you choose.</li>
+    </ul>
+    <p>A Game log trigger can also ask about the screen with <strong>Only when</strong>, such as "only when my mana is under 30%",
+       and a trigger folder named after a group role runs only while you have that role. Screen triggers are shared like any
+       other triggers.</p>
+  </section>
+
+  <section>
+    <h2>Getting started</h2>
+    <ol>
+      <li>Install <a href="/eqsidekick/">EQSidekick</a> 0.3.55 or later, if you haven't already.</li>
+      <li>Download and run the EqEyes installer above. It installs for your Windows user only and needs no administrator.</li>
+      <li>That's all. EqEyes starts with Windows as an eye icon in the notification area, waits for the game, and follows
+          whichever character you log in. The icon is grey while it waits, green while it reads the game, and amber when
+          something can't be read. Right-click it for <strong>Status…</strong>.</li>
+    </ol>
+    <p class="small">Needs Windows 10 version 2004 or later, and nothing else. Play the game in a window, not minimized; other
+       windows may cover it. EqEyes is made for the game's default UI skin, and reads the windows you have open: player,
+       target, group, extended target and spell gems. With a custom skin, or a window closed, those parts read as "unknown".</p>
+  </section>
+
+  <section>
+    <h2>Privacy</h2>
+    <p>Everything EqEyes reads stays on your PC, in the text file beside your game log. It connects to nothing except
+       GitHub, to check for updates.</p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p><a href="mailto:it@mazilla.se">it@mazilla.se</a></p>
+  </section>
+</main>
+<footer>
+  © Mazilla AB, Uppsala, Sweden. EqEyes is an independent fan-made tool, not affiliated with or endorsed by Daybreak Game Company.
+  EverQuest is a registered trademark of Daybreak Game Company LLC.
+</footer>
+</body>
+</html>
