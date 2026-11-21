@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10151C">
+<link rel="icon" href="../icon.png">
+<title>Run your own EQSidekick server · Mazilla AB</title>
+<meta name="description" content="How a guild runs its own EQSidekick raid server on Windows: download, set up, put it on the internet, and connect the guild's meters, Discord and phones.">
+<style>
+  :root { --ground:#10151C; --panel:#18202A; --raised:#243142; --line:#2B3644; --line-strong:#3A4757;
+          --text:#E6EBF1; --soft:#C5CFDB; --muted:#93A1B3; --burn:#F2A33A;
+          --spell:#5AA9E6; --melee:#B49CF5; --ranged:#9CC27A; --heal:#4CC9A6; --boost:#E9D85C; --proc:#F06FA6; }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body { margin:0; background:var(--ground); color:var(--soft);
+         font:16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+  main { max-width:50rem; margin:0 auto; padding:1.5rem 1rem 2rem; }
+  nav { font-size:.85rem; color:var(--muted); }
+  nav a { color:var(--muted); text-decoration:none; }
+  nav a:hover { color:var(--soft); }
+  header { margin:2.25rem 0 1.5rem; }
+  .title { display:flex; align-items:center; gap:1rem; }
+  .title img { width:64px; height:64px; border-radius:12px; }
+  header h1 { font-size:2.2rem; margin:0; color:var(--text); font-weight:600; letter-spacing:-0.01em; }
+  .lead { font-size:1.15rem; color:var(--text); margin:1rem 0 1.25rem; max-width:40rem; }
+  .btn { display:inline-block; border:2px solid var(--burn); color:var(--burn); background:transparent; text-decoration:none;
+         font-weight:600; padding:.65rem 1.2rem; border-radius:8px; margin:0 1rem .5rem 0; }
+  .btn:hover { background:var(--burn); color:var(--ground); }
+  .small { font-size:.85rem; color:var(--muted); }
+  a { color:var(--spell); }
+  h2 { font-size:.75rem; font-weight:600; margin:2.75rem 0 .75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+  h3 { font-size:1rem; margin:1.25rem 0 .3rem; color:var(--text); font-weight:600; }
+  code { font-family:"Cascadia Mono", Consolas, monospace; font-size:.9em; background:var(--raised); padding:.05rem .3rem; border-radius:4px; color:var(--text); overflow-wrap:anywhere; }
+  pre { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px 14px; overflow-x:auto; margin:.5rem 0 .75rem; }
+  pre code { background:none; padding:0; font-size:.85rem; overflow-wrap:normal; }
+  .note { background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--heal); border-radius:8px; padding:12px 16px; }
+  .note p { margin:.25rem 0; }
+  .note strong, strong { color:var(--text); }
+  section ul, section ol { padding-left:1.2rem; margin:.25rem 0 0; }
+  section li { margin:.3rem 0; }
+  footer { max-width:50rem; margin:0 auto; padding:1.5rem 1rem 3rem; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/en/">Mazilla AB</a> / <a href="/eqsidekick/">EQSidekick</a> / Run your own server</nav>
+
+  <header>
+    <div class="title"><img src="../icon.png" alt=""><h1>Run your own server</h1></div>
+    <p class="lead">EQSidekick works with the raid server at raid.mazilla.se. A guild that would rather run its own can:
+       it's the same server, and your raid nights, signups and history stay on your machine.</p>
+    <a class="btn" href="https://github.com/mmarpik/EQSidekick-releases/releases/latest">Download the server</a>
+    <p class="small">On the release page, under Assets, take <code>EQSidekick-Server-&lt;version&gt;-win-x64.zip</code>.
+       Free, for Windows, with no database server and no .NET to install. It's offered as it is, without a warranty
+       or a promise of support.</p>
+  </header>
+
+  <div class="note">
+    <p><strong>What you need.</strong> A Windows PC or server that is on during raids, and a public https address for it,
+       because players' meters, the phone app and Discord reach it over the internet. Step 3 gives three ways to get one;
+       the simplest needs no domain and no router changes. A Discord application of your own is needed only for the
+       signup bot and phone sign-in.</p>
+  </div>
+
+  <section>
+    <h2>1. Set it up</h2>
+    <p>Windows marks downloaded files as blocked, so first unblock the zip: right-click it, <strong>Properties</strong>,
+       tick <strong>Unblock</strong>, <strong>OK</strong>. Unzip it to a folder of its own, say <code>C:\EQSidekickServer</code>,
+       and run this in PowerShell in that folder:</p>
+<pre><code>powershell -ExecutionPolicy Bypass -File .\Setup-Server.ps1 -Guild "Your Guild" -GameServer mischief -Url https://raid.example.com</code></pre>
+    <ul>
+      <li><code>-Guild</code> is your guild's name as the game shows it, and <code>-GameServer</code> the EverQuest server it plays on.</li>
+      <li><code>-Url</code> is the public address from step 3. Decide that first; you can change it later in <code>appsettings.Production.json</code>.</li>
+      <li>Add <code>-Task</code>, in PowerShell run as administrator, to start the server with Windows and restart it if it
+          stops. Without it, start it with <code>run.cmd</code>; it runs while that window is open.</li>
+    </ul>
+    <p>Setup makes <code>appsettings.Production.json</code>, your settings with an admin key it made (keep the file private),
+       and <code>data\</code>, with the database, the nights and the log. Running it again keeps both as they are.</p>
+  </section>
+
+  <section>
+    <h2>2. Check it runs</h2>
+    <p>Open <code>http://127.0.0.1:5380/version</code> on that PC. It answers with the server's version. Problems are
+       written to <code>data\server.log</code>.</p>
+  </section>
+
+  <section>
+    <h2>3. Put it on the internet</h2>
+    <p>The server only listens on the PC itself. Put one of these in front of it; each also gives you the https certificate.</p>
+    <h3>Tailscale Funnel: no domain, no router changes</h3>
+    <p>Install <a href="https://tailscale.com">Tailscale</a> on the PC, sign in, turn on Funnel for your tailnet in its admin
+       page, then run:</p>
+<pre><code>tailscale funnel --bg 5380</code></pre>
+    <p>Your address is the <code>https://&lt;pc name&gt;.&lt;tailnet&gt;.ts.net</code> it prints.</p>
+    <h3>Cloudflare Tunnel: your own domain at Cloudflare, no router changes</h3>
+    <p>Make a named tunnel to <code>http://127.0.0.1:5380</code> for, say, <code>raid.yourguild.com</code>. Quick tunnels
+       (<code>trycloudflare.com</code>) change address every time they start, so they only suit a test.</p>
+    <h3>Caddy: your own domain, ports 80 and 443 forwarded to the PC</h3>
+    <p>Install <a href="https://caddyserver.com">Caddy</a> and give it this <code>Caddyfile</code>:</p>
+<pre><code>raid.yourguild.com {
+    reverse_proxy 127.0.0.1:5380
+}</code></pre>
+    <p>Whichever you use, it must pass WebSockets through and leave request bodies as they are, because Discord signs them.
+       All three do. Check that <code>https://&lt;your address&gt;/version</code> answers from a phone that isn't on your Wi-Fi.</p>
+  </section>
+
+  <section>
+    <h2>4. Your guild's meters and the first officer</h2>
+    <p>Each player opens <strong>Share…</strong> in EQSidekick and types your address in <strong>Raid server</strong>.
+       EQSidekick finds the guild from their character's guild.</p>
+    <p>The first time the server starts, its guild has no officer, and <code>data\server.log</code> has a line like this:</p>
+<pre><code>Your Guild on mischief has no officer yet. Officer code ABC-DEF, once, until 2026-11-28: …</code></pre>
+    <p>The guild leader enters that code in EQSidekick: <strong>Share…</strong>, <strong>Guild</strong>, tick
+       <strong>I'm an officer of this guild</strong>, type the code, <strong>Use officer code</strong>. Each restart shows the
+       same code until someone uses it, and a new one after 7 days. From then on, officers give other officers codes
+       themselves, with <strong>Officer code</strong> in the same place.</p>
+  </section>
+
+  <section>
+    <h2>5. Discord and phones (optional)</h2>
+    <p>The signup bot and phone sign-in both use one Discord application of your own.</p>
+    <ol>
+      <li>At <a href="https://discord.com/developers/applications">discord.com/developers/applications</a>, choose
+          <strong>New Application</strong>. From <strong>General Information</strong>, copy the <strong>Application ID</strong>
+          and <strong>Public Key</strong>.</li>
+      <li>Under <strong>Bot</strong>, choose <strong>Reset Token</strong> and copy the token; Discord shows it once, and it's a
+          secret. Turn <strong>Public Bot</strong> off. Turn on <strong>Message Content Intent</strong> only if your guild will
+          sign up by typing <code>!join</code> in a channel.</li>
+      <li>Under <strong>OAuth2</strong>, add <code>https://&lt;your address&gt;/app/signin-discord</code> to
+          <strong>Redirects</strong>. Under <strong>Client Secret</strong>, choose <strong>Reset Secret</strong> and copy it;
+          that's a secret too.</li>
+      <li>Fill them in in <code>appsettings.Production.json</code>, where setup left the places empty, and restart the server:
+<pre><code>"Discord": {
+  "ApplicationId": "&lt;Application ID&gt;",
+  "PublicKey": "&lt;Public Key&gt;",
+  "BotToken": "&lt;bot token&gt;",
+  "TimeZone": "Eastern Standard Time"
+},
+"App": {
+  "Push": { "Subject": "https://&lt;your address&gt;/app/" },
+  "Discord": { "ClientSecret": "&lt;client secret&gt;", "RedirectUrl": "https://&lt;your address&gt;/app/signin-discord" }
+}</code></pre>
+          <code>TimeZone</code> is a Windows time zone name, used to date the raid channels' names.</li>
+      <li>Back in the portal, under <strong>General Information</strong>, set <strong>Interactions Endpoint URL</strong> to
+          <code>https://&lt;your address&gt;/discord/interactions</code> and save. Discord checks it straight away; if it can't,
+          the Public Key or the address is wrong.</li>
+      <li>Invite the bot to your Discord, with your Application ID in place of <code>APP_ID</code>:
+<pre><code>https://discord.com/oauth2/authorize?client_id=APP_ID&amp;scope=bot+applications.commands&amp;permissions=0</code></pre>
+          Then give the bot's role these permissions on a category named <strong>Raids</strong>, and one named
+          <strong>Archive</strong>: View Channels, Manage Channels, Send Messages, Embed Links, Attach Files, Read Message
+          History, Pin Messages, Manage Permissions and Connect. Server-wide, give it Move Members, Create Events and
+          Manage Events, for the raids' scheduled events.</li>
+      <li>An officer presses <strong>Discord code</strong> in EQSidekick (<strong>Share…</strong>, <strong>Guild</strong>). It
+          copies <code>/setup code:XXX-XXX</code>, which someone with Manage Server runs in your Discord. The raid commands
+          then appear there.</li>
+    </ol>
+    <p>The phone app is then at <code>https://&lt;your address&gt;/app/</code>: sign in with Discord, then install it from the browser.</p>
+  </section>
+
+  <section>
+    <h2>Sponsored voices and coaching (optional)</h2>
+    <p>A guild's sponsor can pay for Azure voices and coaching after fights for its members. The keys go in
+       <code>appsettings.Production.json</code> under <code>Sponsors</code>, followed by a restart, and they never leave the
+       server. <code>GUILD-SETTINGS.md</code> in the zip says who counts as a sponsored member, and how officers publish the
+       guild's settings.</p>
+<pre><code>"Sponsors": { "Guilds": { "mischief/your-guild": { "AzureKey": "…", "AzureRegion": "swedencentral", "AnthropicKey": "…", "CoachingPerMonth": 30 } } }</code></pre>
+  </section>
+
+  <section>
+    <h2>Updating and backups</h2>
+    <p>Each EQSidekick release has a server zip of the same version beside it. Keep the server at least as new as the newest
+       EQSidekick your guild uses. Stop the server (<code>Stop-ScheduledTask EQSidekickServer</code>, or close
+       <code>run.cmd</code>), unblock and unzip the new zip over the old folder, and start it again. The zip holds no settings
+       and no data, so <code>appsettings.Production.json</code> and <code>data\</code> stay as they are.</p>
+    <p>Everything lives in <code>data\</code> and <code>appsettings.Production.json</code>. Copy both somewhere else now and
+       then; with the server stopped, the copy is exact.</p>
+  </section>
+
+  <section>
+    <h2>Friends' guilds on your server</h2>
+    <p>Your server can host other guilds too. A guild is only on it if you add it, so you decide whose planning, signups
+       and history it keeps. With the admin key from <code>appsettings.Production.json</code> (Raid › AdminKey):</p>
+<pre><code>$h = @{ 'X-Admin-Key' = '&lt;admin key&gt;' }
+Invoke-RestMethod https://&lt;your address&gt;/api/admin/guilds -Headers $h            # the guilds
+Invoke-RestMethod https://&lt;your address&gt;/api/admin/guilds/requests -Headers $h   # guilds that asked from EQSidekick
+Invoke-RestMethod https://&lt;your address&gt;/api/admin/guilds -Method Post -Headers $h `
+    -ContentType application/json -Body '{"name":"Their Guild","server":"mischief"}'   # add one; prints its first officer code</code></pre>
+    <p>Live raid sharing with raid codes works for anyone who has the address, as it does on raid.mazilla.se.</p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p><a href="mailto:it@mazilla.se">it@mazilla.se</a></p>
+  </section>
+</main>
+<footer>
+  © Mazilla AB, Uppsala, Sweden. EQSidekick is an independent fan-made tool, not affiliated with or endorsed by Daybreak Game Company.
+  EverQuest is a registered trademark of Daybreak Game Company LLC.
+</footer>
+</body>
+</html>
