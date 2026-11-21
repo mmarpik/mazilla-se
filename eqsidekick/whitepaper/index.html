@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10151C">
+<link rel="icon" href="../icon.png">
+<title>EQSidekick white paper · Mazilla AB</title>
+<meta name="description" content="What EQSidekick does for an EverQuest guild: merged raid logs, Discord signups, raid groups, loot, coaching after the fight, and EqEyes triggers on what's on screen.">
+<style>
+  :root { --ground:#10151C; --panel:#18202A; --raised:#243142; --line:#2B3644; --line-strong:#3A4757;
+          --text:#E6EBF1; --soft:#C5CFDB; --muted:#93A1B3; --burn:#F2A33A;
+          --spell:#5AA9E6; --melee:#B49CF5; --ranged:#9CC27A; --heal:#4CC9A6; --boost:#E9D85C; --proc:#F06FA6; }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body { margin:0; background:var(--ground); color:var(--soft);
+         font:16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+  main { max-width:50rem; margin:0 auto; padding:1.5rem 1rem 2rem; }
+  nav { font-size:.85rem; color:var(--muted); }
+  nav a { color:var(--muted); text-decoration:none; }
+  nav a:hover { color:var(--soft); }
+  header { margin:2.25rem 0 1.5rem; }
+  .title { display:flex; align-items:center; gap:1rem; }
+  .title img { width:64px; height:64px; border-radius:12px; }
+  header h1 { font-size:2.2rem; margin:0; color:var(--text); font-weight:600; letter-spacing:-0.01em; }
+  .lead { font-size:1.15rem; color:var(--text); margin:1rem 0 1.25rem; max-width:40rem; }
+  .small { font-size:.85rem; color:var(--muted); }
+  a { color:var(--spell); }
+  h2 { font-size:1.35rem; font-weight:600; margin:2.75rem 0 .6rem; color:var(--text); }
+  h3 { font-size:1.05rem; margin:1.75rem 0 .4rem; color:var(--text); font-weight:600; }
+  p { margin:.6rem 0; }
+  code { font-family:"Cascadia Mono", Consolas, monospace; font-size:.9em; background:var(--raised); padding:.05rem .3rem; border-radius:4px; color:var(--text); }
+  pre { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px 14px; overflow-x:auto; margin:.5rem 0 .75rem; }
+  pre code { background:none; padding:0; font-size:.85rem; }
+  strong { color:var(--text); }
+  ul, ol { padding-left:1.2rem; margin:.4rem 0; }
+  li { margin:.35rem 0; }
+  .wrap { overflow-x:auto; margin:.75rem 0; }
+  table { border-collapse:collapse; width:100%; font-size:.92rem; }
+  th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:var(--panel); color:var(--text); font-weight:600; }
+  footer { max-width:50rem; margin:0 auto; padding:1.5rem 1rem 3rem; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/en/">Mazilla AB</a> / <a href="/eqsidekick/">EQSidekick</a> / White paper</nav>
+
+  <header>
+    <div class="title"><img src="../icon.png" alt=""><h1>EQSidekick</h1></div>
+    <p class="lead">EQSidekick turns the logs every raider already writes into one shared record of the raid, with no extra work in game.</p>
+  </header>
+
+  <h2>Abstract</h2>
+  <ul>
+    <li><strong>The whole fight, not one client's view.</strong> Every raider's log is merged into one night, each event
+        counted once. A single log misses hits: on one boss, the main's log alone saw 95.5% of the fight.</li>
+    <li><strong>Raids that organise themselves in Discord.</strong> Signups work the way the guild signs up today, and the
+        planner turns them into groups in one click: a healer in every group and every signup line kept together, on all
+        15 real raid nights we replayed.</li>
+    <li><strong>A raid history that stays.</strong> Attendance, groups, loot and DKP live on the guild's raid server, for
+        officers on any PC and members on the web and their phone.</li>
+    <li><strong>Triggers on what's on screen.</strong> EqEyes, a small companion program, reads health, targets, the group
+        and spell gems from the game window, so triggers can act on what the screen shows, not only on what the log says.</li>
+  </ul>
+
+  <h2>Download</h2>
+  <p>Both programs are free for Windows and update themselves from GitHub. Windows may show a SmartScreen warning the first
+     time you install them.</p>
+  <ul>
+    <li><strong>EQSidekick:</strong> <a href="/eqsidekick/">mazilla.se/eqsidekick</a> ·
+        <a href="https://github.com/mmarpik/EQSidekick-releases/releases/latest/download/EQSidekick-win-Setup.exe">Download the installer</a> ·
+        <a href="https://github.com/mmarpik/EQSidekick-releases/releases/latest">Release notes</a></li>
+    <li><strong>EqEyes:</strong> <a href="/eqeyes/">mazilla.se/eqeyes</a> ·
+        <a href="https://github.com/mmarpik/EqEyes-releases/releases/latest/download/EqEyes-win-Setup.exe">Download the installer</a> ·
+        <a href="https://github.com/mmarpik/EqEyes-releases/releases/latest">Release notes</a></li>
+    <li><strong>Your guild's own raid server:</strong> <a href="/eqsidekick/server/">mazilla.se/eqsidekick/server</a>, a free
+        download with a step-by-step setup guide</li>
+  </ul>
+
+  <h2>At a glance</h2>
+  <p>Each raider's meter reads their own logs and uploads them. The raid server merges them into one night and holds raids,
+     groups, signups and loot. Discord and the phone app read and write the same raids.</p>
+
+  <h2>Compared with EQLogParser</h2>
+  <p>EQLogParser is the best single-log parser for EverQuest, and EQSidekick does not try to beat it at that. EQSidekick
+     starts where one log stops: it combines every raider's log into one raid, keeps what it learns on a shared server, and
+     brings the results to Discord.</p>
+  <div class="wrap"><table>
+    <tr><th></th><th>EQLogParser</th><th>EQSidekick</th></tr>
+    <tr><td>Logs read</td><td>One log at a time, on one PC</td><td>Every active log on the PC at once (a main and its boxes), and every raider's log merged on the raid server</td></tr>
+    <tr><td>What one fight is measured from</td><td>What your client happened to show you</td><td>Everything any raider's client showed, counted once</td></tr>
+    <tr><td>Where knowledge lives</td><td>On your PC</td><td>On the guild's raid server: raids, attendance, groups, signups, loot, rosters</td></tr>
+    <tr><td>Triggers</td><td>GINA-compatible, text-to-speech on your PC</td><td>GINA-compatible, a voice per character, Azure's neural voices; triggers on what's on screen, read by EqEyes; callouts in the raid's Discord voice channel being tested</td></tr>
+    <tr><td>Discord</td><td>Share a parse as text</td><td>Raid signups and raid channels; fight posts and voice callouts being tested</td></tr>
+    <tr><td>Raid organisation</td><td>Not covered</td><td>Signups, group planning, loot and DKP, a phone app</td></tr>
+    <tr><td>Damage, healing and tanking detail</td><td>Deep: by ability, spell counts, trends across fights</td><td>Abilities, healing and tanking from the whole raid's merged logs, burns by group, after-fight analysis</td></tr>
+  </table></div>
+
+  <h3>One raid, many logs</h3>
+  <p>EverQuest shows each client only part of a raid fight, so any single log misses hits. On one raid, two characters on one
+     PC each saw events the other missed: about 9,000 only in the main's log, about 23,700 only in the box's. On one boss,
+     the main's log alone saw 95.5% of the fight.</p>
+  <p>EQSidekick merges logs at two levels:</p>
+  <ul>
+    <li><strong>On the PC:</strong> a main and its box are read together as one meter while they are in the same raid. A box
+        elsewhere is left out, with the reason shown, and can open in its own window.</li>
+    <li><strong>On the raid server:</strong> every raider's upload is merged into one night. The same event seen by several
+        players counts once; what only one saw is kept. Merged totals match the server's within 0.01% per fight.</li>
+  </ul>
+
+  <h3>Knowledge that stays</h3>
+  <p>A parser forgets when you close it. The raid server keeps every raid night: who signed up, who came, the groups as
+     planned and as formed in game, the raid lists, loot and the guild roster. Officers see it from any PC, and members on
+     the guild's web pages and phone app. Past raids can be backfilled from old logs and raid lists: September and October
+     2026 were loaded this way. The raid server is either the hosted one at raid.mazilla.se or the guild's own, from a
+     download with a <a href="/eqsidekick/server/">setup guide</a>.</p>
+
+  <h3>Triggers in your voice, and in Discord</h3>
+  <p>Triggers import from GINA packages. Each character has its own trigger setup and its own voice, so a main and its box
+     can be told apart by ear; an alert both see is said once. Alerts can be said in Azure's neural voices. Being tested: a
+     Discord voice bot that speaks the raid's callouts in the voice channel, so everyone hears the same warning at the same
+     moment, whether or not they run triggers themselves. A number can be said rounded ("Headshot for 2.8 million"), and a
+     trigger can speak up only for the unusual ones: above the 90th percentile of what it has caught before, or a new best.</p>
+
+  <h3>Automatic Discord posts</h3>
+  <p>Being tested: after each fight, the meter can post the result to the guild's Discord, as text or as images: a summary
+     card, the full table and a damage graph. A text post looks like this (names made up):</p>
+<pre><code>**Rufus Invictus** · 6:57 · 252M damage @ 36.3M · Oct 20 20:02
+    Player            Damage      DPS   Time
+ 1. Joku              21.4M     3.08M   412s
+ 2. Brightblade +Pets 19.9M     2.86M   405s
+ 3. Emberwisp         18.7M     2.69M   398s</code></pre>
+
+  <h2>EqEyes: triggers on what's on screen</h2>
+  <p>The game log says what happened, but not what the screen shows: your own health and mana, your target's health, who in
+     the group is getting low, which mobs are on your extended target, which spells are ready. EqEyes is a small companion
+     program that reads exactly that from the game window and writes it down, so EQSidekick can trigger on it.</p>
+  <ul>
+    <li><strong>Only what the player can see.</strong> EqEyes looks at the game window and the game's own UI layout files,
+        the same windows the player sees. It doesn't read the game's memory, change the game, or press any key.</li>
+    <li><strong>A screen log beside the game log.</strong> It writes a plain text file next to the game's log, one line per
+        change. It covers the player's health, mana and endurance; the target's health, buffs and debuffs, and when the
+        target changes; who the target is on and when it turns to someone else; each group member's health, who is lowest,
+        and how many are under a given health; the extended target slots, with each slot's role; the cast bar and which
+        spell gems are ready; and the group roles (main tank, main assist, puller, NPC marker). When something can't be
+        read, it writes "unknown" instead of guessing.</li>
+    <li><strong>Two sets of triggers.</strong> In EQSidekick's Triggers window, <strong>Game log</strong> triggers read the
+        game's log and <strong>Screen</strong> triggers read EqEyes' log, so a screen trigger can't go off on something said
+        in a tell. A game log trigger can still ask about the screen with <strong>Only when</strong>, such as "only when my
+        mana is under 30%".</li>
+    <li><strong>Numbers that cross a line.</strong> A pattern can compare a number, like <code>group rank 1 hp {N&lt;60}</code>,
+        and fires once each time the value crosses that line, not on every update.</li>
+    <li><strong>Role folders.</strong> A folder named after a group role (Puller, Main Tank, Main Assist, Mark NPC) runs only
+        while the character has that role in the group window, so one setup follows the job the character has tonight.</li>
+  </ul>
+  <p>Some ready-made screen triggers, in the <a href="/eqeyes/">EqEyes demo package</a>:</p>
+  <ul>
+    <li><strong>Pull:</strong> for the puller, says "Pull" once the camp is clear and everyone in the group has at least 80%
+        health. Replayed on one morning's screen log, it called after every cleared fight, 32 times.</li>
+    <li><strong>Add:</strong> says "Add" when a new mob lands in an Auto extended-target slot: on the group's hate list, but
+        not the main assist's target.</li>
+    <li><strong>Heal:</strong> speaks up when the lowest health in the group drops under a set level.</li>
+    <li><strong>Mob turned:</strong> says when the main assist's mob turns away, and to whom: you, a group member or
+        someone else.</li>
+  </ul>
+  <p>EqEyes installs on each game PC and updates itself, like EQSidekick. It's on <a href="/eqeyes/">mazilla.se/eqeyes</a>,
+     and needs Windows 10 version 2004 or later, the game in a window, and the game's default UI skin.</p>
+
+  <h2>Discord signups</h2>
+  <p>EQSidekick's signup bot works the way guilds already sign up, so a guild can switch to it without anyone noticing, and
+     only then start using what it adds.</p>
+  <h3>Signing up</h3>
+  <ul>
+    <li><code>!join Thornwick, Mirabel, Oskarr</code> in the guild's sign-up channel, exactly as today. One line is one group
+        for the night: the characters on it come together.</li>
+    <li><code>!maybe</code>, <code>!late</code>, <code>!out</code> and <code>!leave</code> change an answer. A note after the
+        names ("may be a little late") is kept, and an unsure note makes it a Maybe.</li>
+    <li><code>/signup</code> does the same with autocomplete of the guild's characters. Anyone may sign up someone else, and
+        the signer is recorded.</li>
+    <li>A typo gets a short reply: "Don't know Thornwik: did you mean Thornwick?" Everything else gets a ✅.</li>
+  </ul>
+  <h3>Raids without extra work</h3>
+  <ul>
+    <li>The raid leader's own "Sign-ups are open for Tuesday, Oct 20!" post creates the raid. So does <code>/raid create</code>,
+        which posts that opener in the guild's own wording and ping.</li>
+    <li>A "Raid cancelled" post or <code>/raid cancel</code> cancels it, and the signups are kept.</li>
+    <li>Optionally, a Discord channel and scheduled event per raid; or everything stays in one sign-up channel.</li>
+  </ul>
+  <h3>Switching over quietly</h3>
+  <ol>
+    <li><strong>Listen:</strong> the bot runs beside the old bot, reads every line and records it, and never says a word in
+        Discord. It only needs to read the channel.</li>
+    <li><strong>Compare:</strong> officers see what the bot recorded, and what it would have answered, on the raid's page.</li>
+    <li><strong>On:</strong> turn the old bot off and EQSidekick on. With the "Added &lt;3" reply style, the channel looks the
+        same as before.</li>
+  </ol>
+  <p>Signups land in the raid planner, on the guild's web pages and in the phone app, where members can also answer from
+     their phone.</p>
+
+  <h2>Raid groups</h2>
+  <p>The raid planner turns tonight's signups into groups in one click, the way an experienced raid leader builds them, and
+     then checks the raid as formed in game against the plan.</p>
+  <ul>
+    <li><strong>Auto-assign</strong> fills group templates (tank, melee, caster) from a preset: a healer in every group, bards
+        spread where they help most, a box always with its main.</li>
+    <li><strong>Group-mates stay together:</strong> each signup line is one group, and players who usually group together are
+        kept together, learned from the last 10 raids.</li>
+    <li><strong>Officers' standing rules</strong> ("never with their boxes", "always with") apply to every raid until removed.</li>
+    <li><strong>Drag and drop</strong> for the final touches, with the reason each player was placed shown on hover.</li>
+    <li><strong>In game vs plan:</strong> once the raid is formed and someone writes a raid list (<code>/outputfile raid</code>),
+        the planner pairs each planned group with the in-game group that shares the most members, whatever its number, and
+        lists the moves that make the raid match the plan, in an order that works. The raid list can come from any officer's
+        meter.</li>
+  </ul>
+  <p>On a real raid night with 44 signups, one click on Auto-assign put boxes beside their mains and a healer in every group,
+     and flagged a group with no bard. Paired with the groups as formed in game, 33 of 44 were already placed, with 11 moves
+     to go.</p>
+  <h3>How close it gets to a human raid leader</h3>
+  <p>We replayed 15 real raid nights (Sep 1 to Oct 22, 2026; 649 characters, 114 groups) through the planner and compared its
+     groups with the ones the raid leader actually posted.</p>
+  <div class="wrap"><table>
+    <tr><th>Measure</th><th>Planner</th><th>Raid leader</th></tr>
+    <tr><td>Groups with a healer</td><td>114 of 114</td><td>114 of 114</td></tr>
+    <tr><td>Signup-line pairs kept together</td><td>387 of 387</td><td>366 of 387</td></tr>
+    <tr><td>Caster groups with a bard</td><td>60%</td><td>58%</td></tr>
+    <tr><td>Groups with two bards</td><td>0</td><td>0</td></tr>
+  </table></div>
+  <p>The hard rules match on every night. The raid leader still makes the final calls: the planner gives a starting point that
+     follows the guild's own rules, and two rules found by this comparison are already in it: lines join their usual
+     group-mates, and the second melee group comes later.</p>
+
+  <h2>Loot</h2>
+  <p>EQSidekick reads every item that drops straight from the log, so the loot officer keeps track of the raid's loot without
+     writing anything down, and DKP follows by itself.</p>
+  <ul>
+    <li><strong>Every drop, in one list:</strong> time, item, who took it, how (looted, rolled, auctioned), from which corpse
+        and in which fight. Rolls are listed highest first. Items left on a corpse are shown, and raid loot left behind is
+        marked red in case it was a mistake. Trash loot can be hidden.</li>
+    <li><strong>Item cards:</strong> hovering an item shows its stats from the item database.</li>
+    <li><strong>Auctions in raid chat:</strong> put an item up with one click, and the helper reads bids from raid chat or
+        tells. It supports sealed bids by /tell, second-price wins and a minimum raise, and copies the opening, status and
+        result lines to paste in /rs.</li>
+    <li><strong>OpenDKP:</strong> for guilds on OpenDKP, the meter sends attendance ticks from raid lists, and each auction's
+        winner and price as an item.</li>
+    <li><strong>On the guild's web pages:</strong> loot, DKP, auctions and an item list for every raid on the server.</li>
+  </ul>
+  <p>Loot can be shown for one night, one raid or a range of nights, and grouped by item: each item's count, expanding to who
+     looted it, when and from which corpse.</p>
+
+  <h2>After the fight</h2>
+  <p>After each fight, EQSidekick answers "what went wrong, and what should I do differently?" from the facts in the logs, for
+     the whole raid or for one player, with optional coaching from Claude.</p>
+  <ul>
+    <li><strong>A facts sheet per fight:</strong> deaths with the last seconds before each, damage on each mob (pets shown
+        apart), burns used, casts per minute and the casts beside a player's own. It covers the whole raid or one player,
+        from your log or from the raid's merged night on the server.</li>
+    <li><strong>Coaching on request:</strong> one click sends the sheet, and only the sheet, to Claude, which answers with
+        strengths, things to improve and a question to think about. Every point cites the facts it rests on, and a point that
+        cites nothing on the sheet is dropped. Nothing leaves the PC until the button is pressed.</li>
+    <li><strong>Analysis for officers:</strong> statistics per player and per class (damage taken and avoided, crippling
+        blows, twincasts, fizzles, interrupts, mez breaks, rez casts, cleanses), abilities per player, and a filterable list
+        of mobs.</li>
+    <li><strong>Playback:</strong> the fight replayed second by second, with each player's activity in swimlanes.</li>
+  </ul>
+
+  <section>
+    <h2>Contact</h2>
+    <p><a href="mailto:it@mazilla.se">it@mazilla.se</a></p>
+  </section>
+</main>
+<footer>
+  © Mazilla AB, Uppsala, Sweden. EQSidekick and EqEyes are independent fan-made tools, not affiliated with or endorsed by Daybreak Game Company.
+  EverQuest is a registered trademark of Daybreak Game Company LLC.
+</footer>
+</body>
+</html>
