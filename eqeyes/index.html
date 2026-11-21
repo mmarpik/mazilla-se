@@ -66,7 +66,7 @@
   <h2>What it reads</h2>
   <div class="grid">
     <div class="card" style="--accent:var(--heal)"><h3>You</h3><p>Your health, mana and endurance, and your group roles: main tank, main assist, puller, NPC marker.</p></div>
-    <div class="card" style="--accent:var(--proc)"><h3>Your target</h3><p>Its health, its buffs and debuffs, and the moment the target changes.</p></div>
+    <div class="card" style="--accent:var(--proc)"><h3>Your target</h3><p>Its health, its buffs and debuffs, and the moment the target changes. Who it is on (you, a group member or somebody else), the moment it turns, and whether it is the main assist's target.</p></div>
     <div class="card" style="--accent:var(--spell)"><h3>Your group</h3><p>Each member's health, who is lowest, and how many are under a given health.</p></div>
     <div class="card" style="--accent:var(--melee)"><h3>Extended target</h3><p>Each slot's health and role: the main assist's target, the tank's, an add on the hate list.</p></div>
     <div class="card" style="--accent:var(--boost)"><h3>Spells</h3><p>The cast bar, and which spell gems are ready, which are down, and which are empty.</p></div>
@@ -82,6 +82,7 @@
       <li><strong>Pull:</strong> for the puller, says "Pull" once the camp is clear and everyone in the group has at least 80% health.</li>
       <li><strong>Add:</strong> says "Add" when a new mob lands on your extended target that isn't the main assist's.</li>
       <li><strong>Heal:</strong> speaks up when the lowest health in the group drops under a level you choose.</li>
+      <li><strong>Turned:</strong> warns when the main assist's mob turns away from the tank, or onto you.</li>
     </ul>
     <p>A Game log trigger can also ask about the screen with <strong>Only when</strong>, such as "only when my mana is under 30%",
        and a trigger folder named after a group role runs only while you have that role. Screen triggers are shared like any
@@ -99,7 +100,7 @@
     </ol>
     <p class="small">Needs Windows 10 version 2004 or later, and nothing else. Play the game in a window, not minimized; other
        windows may cover it. EqEyes is made for the game's default UI skin, and reads the windows you have open: player,
-       target, group, extended target and spell gems. With a custom skin, or a window closed, those parts read as "unknown".</p>
+       target, target's target, group, extended target and spell gems. With a custom skin, or a window closed, those parts read as "unknown".</p>
   </section>
 
   <section>
