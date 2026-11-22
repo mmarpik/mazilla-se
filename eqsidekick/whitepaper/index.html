@@ -76,6 +76,9 @@
         <a href="https://github.com/mmarpik/EqEyes-releases/releases/latest">Release notes</a></li>
     <li><strong>Your guild's own raid server:</strong> <a href="/eqsidekick/server/">mazilla.se/eqsidekick/server</a>, a free
         download with a step-by-step setup guide</li>
+    <li><strong>Ready-made triggers:</strong> <a href="/eqeyes/EqEyes-Demo.gtp" download>EqEyes demo triggers</a> (Add, Pull,
+        Heal, Mob turned) and <a href="/eqsidekick/Damage-and-Heals.gtp" download>damage and heals triggers</a> (your best
+        spell hits, heals, headshots and assassinates). Import them in EQSidekick's Triggers window.</li>
   </ul>
 
   <h2>At a glance</h2>
@@ -121,7 +124,10 @@
      can be told apart by ear; an alert both see is said once. Alerts can be said in Azure's neural voices. Being tested: a
      Discord voice bot that speaks the raid's callouts in the voice channel, so everyone hears the same warning at the same
      moment, whether or not they run triggers themselves. A number can be said rounded ("Headshot for 2.8 million"), and a
-     trigger can speak up only for the unusual ones: above the 90th percentile of what it has caught before, or a new best.</p>
+     trigger can speak up only for the unusual ones: above the 90th percentile of what it has caught before, or a new best.
+     The ready-made <a href="/eqsidekick/Damage-and-Heals.gtp" download>damage and heals triggers</a> do this for spell hits,
+     heals, headshots and assassinates: they go in class folders, run by themselves for the classes they fit, and learn each
+     character's own numbers first.</p>
 
   <h3>Automatic Discord posts</h3>
   <p>Being tested: after each fight, the meter can post the result to the guild's Discord, as text or as images: a summary
@@ -145,6 +151,10 @@
         and how many are under a given health; the extended target slots, with each slot's role; the cast bar and which
         spell gems are ready; and the group roles (main tank, main assist, puller, NPC marker). When something can't be
         read, it writes "unknown" instead of guessing.</li>
+    <li><strong>Every game window at once.</strong> With several EverQuest windows on one PC, a main and its boxes, EqEyes
+        reads all of them at the same time, even when one covers another, and gives each character its own screen log. It
+        tells the windows apart by which game log each one writes, so the game's log must be on (<code>/log on</code>) in
+        each window.</li>
     <li><strong>Two sets of triggers.</strong> In EQSidekick's Triggers window, <strong>Game log</strong> triggers read the
         game's log and <strong>Screen</strong> triggers read EqEyes' log, so a screen trigger can't go off on something said
         in a tell. A game log trigger can still ask about the screen with <strong>Only when</strong>, such as "only when my
@@ -154,7 +164,7 @@
     <li><strong>Role folders.</strong> A folder named after a group role (Puller, Main Tank, Main Assist, Mark NPC) runs only
         while the character has that role in the group window, so one setup follows the job the character has tonight.</li>
   </ul>
-  <p>Some ready-made screen triggers, in the <a href="/eqeyes/">EqEyes demo package</a>:</p>
+  <p>Some ready-made screen triggers, in the <a href="/eqeyes/EqEyes-Demo.gtp" download>EqEyes demo package</a>:</p>
   <ul>
     <li><strong>Pull:</strong> for the puller, says "Pull" once the camp is clear and everyone in the group has at least 80%
         health. Replayed on one morning's screen log, it called after every cleared fight, 32 times.</li>
@@ -165,7 +175,8 @@
         someone else.</li>
   </ul>
   <p>EqEyes installs on each game PC and updates itself, like EQSidekick. It's on <a href="/eqeyes/">mazilla.se/eqeyes</a>,
-     and needs Windows 10 version 2004 or later, the game in a window, and the game's default UI skin.</p>
+     and needs Windows 10 version 2004 or later, the game in a window (not minimized), the game's log on, and the game's
+     default UI skin.</p>
 
   <h2>Discord signups</h2>
   <p>EQSidekick's signup bot works the way guilds already sign up, so a guild can switch to it without anyone noticing, and
